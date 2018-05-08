@@ -3,14 +3,14 @@ defmodule Socket do
   use Supervisor
   use Application
 
-  alias Socket.{Server, RequestSupervisor}
+  alias Socket.{Server}
 
   def start(_type, _args) do
 
     start_link([])
   end
   
-  def start_link(arg) do
+  def start_link(_arg) do
     children = [
       {Socket.Agent, [name: Socket.Agent]},
       worker(Server, []),

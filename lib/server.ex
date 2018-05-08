@@ -22,8 +22,7 @@ defmodule Socket.Server do
         options = [
             active: true,
             packet: :http
-          ]
-        
+          ] 
         IO.puts "setopts return: " <> Kernel.inspect(:inet.setopts(client, options))
         
         send self(), {:loop, socket}
@@ -43,7 +42,7 @@ defmodule Socket.Server do
         :gen_tcp.close(socket)
     end
 
-    def handle_request(request, socket, genserver) do
+    def handle_request(request, socket, _genserver) do
         Logger.debug request.path
         case request.path do
             '/' -> send_response("200 OK", "<h1>Hello webserver?</h1><a href='/test'>Hello?</a>", socket, request)
