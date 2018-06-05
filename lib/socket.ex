@@ -9,10 +9,9 @@ defmodule Socket do
 
     start_link([])
   end
-  
+
   def start_link(_arg) do
     children = [
-      {Socket.Agent, [name: Socket.Agent]},
       worker(Server, []),
       supervisor(Socket.RequestSupervisor, [])
     ]
