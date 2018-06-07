@@ -1,8 +1,8 @@
-defmodule SocketTest do
+defmodule TCPServerTest do
   use ExUnit.Case
-  doctest Socket
+  doctest TCPServer
 
   test "greets the world" do
-    assert Socket.hello() == :world
+    assert TCPServer.hello() == :world
   end
 end
