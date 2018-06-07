@@ -1,9 +1,9 @@
-defmodule Socket.Mixfile do
+defmodule TCPServer.Mixfile do
   use Mix.Project
 
   def project do
     [
-      app: :socket,
+      app: :tcp_server,
       version: "0.1.0",
       elixir: "~> 1.5",
       start_permanent: Mix.env == :prod,
@@ -15,7 +15,7 @@ defmodule Socket.Mixfile do
   def application do
     [
       extra_applications: [:logger],
-      mod: {Socket, []}
+      mod: {TCPServer, []}
     ]
   end
 
