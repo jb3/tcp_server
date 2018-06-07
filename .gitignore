@@ -20,3 +20,5 @@ erl_crash.dump
 *.ez
 
 .vscode/
+
+ttb_last_config
