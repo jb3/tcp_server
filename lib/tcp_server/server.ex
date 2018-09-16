@@ -5,7 +5,7 @@ defmodule TCPServer.Server do
 
   def start_link() do
     Logger.info("Starting connection GenServer")
-    GenServer.start_link(__MODULE__, [{0, 0, 0, 0}, 1337])
+    GenServer.start_link(__MODULE__, [{0, 0, 0, 0}, 1337], name: __MODULE__)
   end
 
   def init([ip, port]) do
