@@ -23,7 +23,7 @@ defmodule TCPServer.RequestServer do
   end
 
   def terminate(_reason, state) do
-    client = Map.get(state, :client)
+    client = state.client
 
     error_resp = """
     HTTP/1.1 500 INTERNAL SERVER ERROR
@@ -51,14 +51,8 @@ defmodule TCPServer.RequestServer do
         {:http, _socket, {:http_request, method, {:abs_path, path}, http_version}},
         state
       ) do
-    state =
-      state
-      |> Map.put(:method, method)
-      |> Map.put(:path, path)
-      |> Map.put(:version, http_version)
-
     Logger.debug("Received http start")
-    {:noreply, state}
+    {:noreply, %{state | method: method, path: path, version: http_version}}
   end
 
   def handle_info(
@@ -66,9 +60,8 @@ defmodule TCPServer.RequestServer do
         state
       ) do
     new_headers = Map.put(state.headers, header_name, content)
-    state = Map.put(state, :headers, new_headers)
     Logger.debug("Received header #{header_name}")
-    {:noreply, state}
+    {:noreply, %{state | headers: new_headers}}
   end
 
   def handle_info({:http, socket, :http_eoh}, state) do
