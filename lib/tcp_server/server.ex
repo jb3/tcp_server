@@ -105,7 +105,7 @@ defmodule TCPServer.Server do
 
   defp prepare_headers(request, user_headers) do
     headers = %{
-      Location: Map.get(request, :path),
+      Location: request.path,
       Server: "Seph serber",
       Date: format_date(DateTime.utc_now()),
       Connection: "close",
