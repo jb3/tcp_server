@@ -38,7 +38,13 @@ defmodule TCPServer.Server do
   end
 
   def send_response(status, body, socket, request, headers \\ %{}) do
-    headers = Map.put headers, :ETag, "\"" <> (:crypto.hash(:md5, body) |> Base.encode16(case: :lower)) <> "\""
+    headers =
+      Map.put(
+        headers,
+        :ETag,
+        "\"" <> (:crypto.hash(:md5, body) |> Base.encode16(case: :lower)) <> "\""
+      )
+
     h = prepare_headers(request, headers)
 
     response = "HTTP/1.1 " <> status <> "\r\n"
@@ -60,6 +66,7 @@ defmodule TCPServer.Server do
           socket,
           request
         )
+
       _ ->
         send_response("404 PAGE NOT FOUND", "", socket, request)
     end
@@ -100,7 +107,10 @@ defmodule TCPServer.Server do
   defp format_date(date) do
     day_name = day_of_week(Date.day_of_week(date))
     month_name = month_of_year(date.month)
-    "#{day_name}, #{date.day} #{month_name} #{date.year} #{date.hour}:#{date.minute}:#{date.second} GMT"
+
+    "#{day_name}, #{date.day} #{month_name} #{date.year} #{date.hour}:#{date.minute}:#{
+      date.second
+    } GMT"
   end
 
   defp prepare_headers(request, user_headers) do
@@ -109,7 +119,7 @@ defmodule TCPServer.Server do
       Server: "Seph serber",
       Date: format_date(DateTime.utc_now()),
       Connection: "close",
-      "Content-Type": "text/html",
+      "Content-Type": "text/html"
     }
 
     headers = Map.merge(headers, user_headers)
