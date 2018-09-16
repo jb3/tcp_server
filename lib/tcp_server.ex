@@ -3,6 +3,7 @@ defmodule TCPServer do
 
   def start(_type, _args) do
     import Supervisor.Spec
+
     children = [
       worker(TCPServer.Server, []),
       supervisor(TCPServer.RequestSupervisor, [])
