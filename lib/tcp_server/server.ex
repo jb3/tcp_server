@@ -65,11 +65,49 @@ defmodule TCPServer.Server do
     end
   end
 
+  @spec day_of_week(Integer) :: String
+  defp day_of_week(day) do
+    case day do
+      1 -> "Mon"
+      2 -> "Tue"
+      3 -> "Wed"
+      4 -> "Thu"
+      5 -> "Fri"
+      6 -> "Sat"
+      7 -> "Sun"
+    end
+  end
+
+  @spec month_of_year(Integer) :: String
+  defp month_of_year(month) do
+    case month do
+      1 -> "Jan"
+      2 -> "Feb"
+      3 -> "Mar"
+      4 -> "Apr"
+      5 -> "May"
+      6 -> "Jun"
+      7 -> "Jul"
+      8 -> "Aug"
+      9 -> "Sep"
+      10 -> "Oct"
+      11 -> "Nov"
+      12 -> "Dec"
+    end
+  end
+
+  @spec format_date(DateTime) :: String
+  defp format_date(date) do
+    day_name = day_of_week(Date.day_of_week(date))
+    month_name = month_of_year(date.month)
+    "#{day_name}, #{date.day} #{month_name} #{date.year} #{date.hour}:#{date.minute}:#{date.second} GMT"
+  end
+
   defp prepare_headers(request, user_headers) do
     headers = %{
       Location: Map.get(request, :path),
       Server: "Seph serber",
-      Date: DateTime.utc_now() |> DateTime.to_iso8601(),
+      Date: format_date(DateTime.utc_now()),
       Connection: "close",
       "Content-Type": "text/html",
     }
