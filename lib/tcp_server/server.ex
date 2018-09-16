@@ -56,27 +56,10 @@ defmodule TCPServer.Server do
       '/' ->
         send_response(
           "200 OK",
-          "<h1>Hello webserver?</h1><a href='/test'>Hello?</a>",
+          "<h1>System working? Seems to be.</h1>",
           socket,
           request
         )
-
-      '/test' ->
-        send_response("200 OK", "<h1>Hello me again xd</h1>", socket, request)
-
-      '/user-agent' ->
-        send_response(
-          "200 OK",
-          "<p>You have a user agent of #{Map.get(request.headers, :"User-Agent")}</p>",
-          socket,
-          request
-        )
-
-      '/redirect' ->
-        send_response("200 OK", "<p>Hello redirect?</p>", socket, request, %{
-          Location: "https://seph.club/"
-        })
-
       _ ->
         send_response("404 PAGE NOT FOUND", "", socket, request)
     end
