@@ -38,6 +38,7 @@ defmodule TCPServer.Server do
   end
 
   def send_response(status, body, socket, request, headers \\ %{}) do
+    headers = Map.put headers, :ETag, "\"" <> (:crypto.hash(:md5, body) |> Base.encode16(case: :lower)) <> "\""
     h = prepare_headers(request, headers)
 
     response = "HTTP/1.1 " <> status <> "\r\n"
@@ -88,10 +89,6 @@ defmodule TCPServer.Server do
       Date: DateTime.utc_now() |> DateTime.to_iso8601(),
       Connection: "close",
       "Content-Type": "text/html",
-      ETag:
-        :crypto.hash(:sha256, :crypto.strong_rand_bytes(10))
-        |> Base.encode16()
-        |> String.downcase()
     }
 
     headers = Map.merge(headers, user_headers)
