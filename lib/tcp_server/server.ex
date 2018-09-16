@@ -113,7 +113,6 @@ defmodule TCPServer.Server do
     }
 
     headers = Map.merge(headers, user_headers)
-    IO.inspect(headers)
     Enum.map(headers, fn x -> "#{elem(x, 0)}: #{elem(x, 1)}" end) |> Enum.join("\r\n")
   end
 
